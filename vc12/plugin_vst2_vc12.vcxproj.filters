@@ -34,9 +34,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\plugin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\source\common\pluginview.cpp">
       <Filter>Source Files\public.sdk\common</Filter>
     </ClCompile>
@@ -88,11 +85,11 @@
     <ClCompile Include="..\source\PluginProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\plugin.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\version.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -187,6 +184,9 @@
       <Filter>Source Files\public.sdk\vst</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PluginProcessor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\plugin.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

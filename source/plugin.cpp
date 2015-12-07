@@ -7,7 +7,7 @@ namespace Vst {
 
 //-----------------------------------------------------------------------------
 // define parameter definitions here...
-tresult PLUGIN_API Plugin::initialize (FUnknown* context){
+tresult PLUGIN_API Phaser::initialize (FUnknown* context){
 	parameters.addParameter(new RangeParameter(STR16("Gain"), kGainId, STR16("dB"), -100, 6, 0));
 
 	// fix for RangeParameter (default value is not yet set)
@@ -19,19 +19,19 @@ tresult PLUGIN_API Plugin::initialize (FUnknown* context){
 }
 
 //-----------------------------------------------------------------------------
-Plugin::Plugin ()
+Phaser::Phaser ()
 : numChannels(0)
 , sampleRate(0)
 {
 }
 //-----------------------------------------------------------------------------
-void Plugin::startProcessing(int numChannels, SampleRate sampleRate){
+void Phaser::startProcessing(int numChannels, SampleRate sampleRate){
 	this->numChannels = numChannels;
 	this->sampleRate = sampleRate;
 	leftProcessor.initialize(sampleRate);
 	rightProcessor.initialize(sampleRate);
 }
-tresult PLUGIN_API Plugin::process (ProcessData& data)
+tresult PLUGIN_API Phaser::process (ProcessData& data)
 {
     if (hasInputParameterChanged(data, kGainId)){
         float paramValue = getInputParameterChange(data, kGainId);

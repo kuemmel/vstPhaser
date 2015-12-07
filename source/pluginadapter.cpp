@@ -300,7 +300,7 @@ BEGIN_FACTORY_DEF ("Steinberg Media Technologies",
 				"Fx",										// Subcategory for this Plug-in (to be changed)
 				FULL_VERSION_STR,							// Plug-in version (to be changed)
 				kVstVersionString,							// the VST 3 SDK version (dont changed this, use always this define)
-				Steinberg::Vst::Plugin::createInstance)// function pointer called when this component should be instanciated
+				Steinberg::Vst::Phaser::createInstance)// function pointer called when this component should be instanciated
 
 END_FACTORY
 

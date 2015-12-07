@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Plugin</ProjectName>
+    <ProjectName>Phaser</ProjectName>
     <ProjectGuid>{709400FB-8CF7-4FEF-B6C5-00CA21A602A3}</ProjectGuid>
     <RootNamespace>Plugin VST2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
