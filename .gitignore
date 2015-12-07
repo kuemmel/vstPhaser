@@ -26,6 +26,7 @@
 *.exe
 *.out
 *.app
+
 ##
 # ignore visual studio stuff
 ##
@@ -36,14 +37,12 @@
 *.sln.docstates
 *.sdf
 
-
 # ignore results
 vc12/[Ww]in32
-vc12/x64/
+c12/x64/
 vc12/x86/
 vc12/build/
 vc12/bld/
 vc12/[Bb]in/
 vc12/[Oo]bj/
-
 
