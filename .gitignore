@@ -26,3 +26,28 @@
 *.exe
 *.out
 *.app
+
+##
+# ignore visual studio stuff
+##
+
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sdf
+
+
+# ignore results
+vc12/[Ww]in32/[Dd]ebug/
+vc12/[Ww]in32/[Dd]ebugPublic/
+vc12/[Ww]in32/[Rr]elease/
+vc12/[Ww]in32/[Rr]eleases/
+
+vc12/x64/
+vc12/x86/
+vc12/build/
+vc12/bld/
+vc12/[Bb]in/
+vc12/[Oo]bj/
+
