@@ -1,0 +1,61 @@
+﻿Build started 07.12.2015 15:42:40.
+     1>Project "F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc12\plugin_vst2_vc12.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../../../../.. /I../../../../../vstgui4 /ZI /nologo /W3 /WX- /Od /Oy- /D WINDOWS=1 /D DEVELOPMENT=1 /D _CRT_SECURE_NO_DEPRECATE=1 /D VSTGUI_LIVE_EDITING=1 /D "PLUGINNAME=\"Plugin\"" /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc120.pdb" /FR"Win32\Debug\\" /Gd /TP /analyze- /errorReport:prompt "..\..\..\..\..\vstgui4\vstgui\plugin-bindings\vst3editor.cpp" ..\..\..\..\..\vstgui4\vstgui\vstgui_uidescription_win32.cpp ..\..\..\..\..\vstgui4\vstgui\vstgui_win32.cpp ..\..\..\..\source\vst\vstsinglecomponenteffect.cpp ..\source\pluginadapter.cpp ..\..\..\..\source\common\pluginview.cpp ..\..\..\..\source\vst\vstaudioeffect.cpp ..\..\..\..\source\vst\vstbus.cpp ..\..\..\..\source\vst\vstcomponent.cpp ..\..\..\..\source\vst\vstcomponentbase.cpp ..\..\..\..\source\vst\vstguieditor.cpp ..\..\..\..\source\vst\vstinitiids.cpp ..\..\..\..\source\vst\vstparameters.cpp ..\..\..\..\source\main\dllmain.cpp ..\..\..\..\source\main\pluginfactoryvst3.cpp ..\..\..\..\..\pluginterfaces\base\ustring.cpp ..\source\PluginProcessor.cpp
+         PluginProcessor.cpp
+         ustring.cpp
+         pluginfactoryvst3.cpp
+         dllmain.cpp
+         vstparameters.cpp
+         vstinitiids.cpp
+         vstguieditor.cpp
+         vstcomponentbase.cpp
+         vstcomponent.cpp
+         vstbus.cpp
+         vstaudioeffect.cpp
+         pluginview.cpp
+         pluginadapter.cpp
+         vstsinglecomponenteffect.cpp
+         vstgui_win32.cpp
+         vstgui_uidescription_win32.cpp
+         vst3editor.cpp
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../../../../.. /I../../../../../vstgui4 /ZI /nologo /W3 /WX- /Od /Oy- /D WINDOWS=1 /D DEVELOPMENT=1 /D _CRT_SECURE_NO_DEPRECATE=1 /D VSTGUI_LIVE_EDITING=1 /D "PLUGINNAME=\"Plugin\"" /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\plugin1.obj" /Fd"Win32\Debug\vc120.pdb" /FR"Win32\Debug\\" /Gd /TP /analyze- /errorReport:prompt ..\source\plugin.cpp
+         plugin.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _VC80_UPGRADE=0x0710 /l"0x0409" /I../../../../.. /nologo /fo"Win32\Debug\plugin.res" ..\resource\plugin.rc 
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _VC80_UPGRADE=0x0710 /l"0x0409" /I../../../../.. /nologo /fo"Win32\Debug\uidesc.res" ..\resource\uidesc.rc 
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1186,5): warning MSB8012: TargetPath(F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc12\Win32\Debug\Plugin.dll) does not match the Linker's OutputFile property value (F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc12\Plugin.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Plugin.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"plugin_vst2.def" /MANIFEST:NO /DEBUG /PDB:"Win32\Debug\plugin.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"Win32\Debug\Plugin.lib" /MACHINE:X86 /SAFESEH /DLL Win32\Debug\plugin.res
+         Win32\Debug\uidesc.res
+         Win32\Debug\vst3editor.obj
+         Win32\Debug\vstgui_uidescription_win32.obj
+         Win32\Debug\vstgui_win32.obj
+         Win32\Debug\vstsinglecomponenteffect.obj
+         Win32\Debug\pluginadapter.obj
+         Win32\Debug\pluginview.obj
+         Win32\Debug\vstaudioeffect.obj
+         Win32\Debug\vstbus.obj
+         Win32\Debug\vstcomponent.obj
+         Win32\Debug\vstcomponentbase.obj
+         Win32\Debug\vstguieditor.obj
+         Win32\Debug\vstinitiids.obj
+         Win32\Debug\vstparameters.obj
+         Win32\Debug\dllmain.obj
+         Win32\Debug\pluginfactoryvst3.obj
+         Win32\Debug\ustring.obj
+         Win32\Debug\PluginProcessor.obj
+         Win32\Debug\plugin1.obj
+         "F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\base\win\Win32\Debug\base.lib"
+         "F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\source\vst\vst2wrapper\win\Win32\Debug\vst2wrapper.lib"
+     1>vst3editor.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+            Creating library Win32\Debug\Plugin.lib and object Win32\Debug\Plugin.exp
+         plugin_vst2_vc12.vcxproj -> F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc12\Win32\Debug\Plugin.dll
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"Win32\Debug\Plugin.bsc" Win32\Debug\vst3editor.sbr Win32\Debug\vstgui_uidescription_win32.sbr Win32\Debug\vstgui_win32.sbr Win32\Debug\vstsinglecomponenteffect.sbr Win32\Debug\plugin.sbr Win32\Debug\pluginadapter.sbr Win32\Debug\pluginview.sbr Win32\Debug\vstaudioeffect.sbr Win32\Debug\vstbus.sbr Win32\Debug\vstcomponent.sbr Win32\Debug\vstcomponentbase.sbr Win32\Debug\vstguieditor.sbr Win32\Debug\vstinitiids.sbr Win32\Debug\vstparameters.sbr Win32\Debug\dllmain.sbr Win32\Debug\pluginfactoryvst3.sbr Win32\Debug\ustring.sbr Win32\Debug\PluginProcessor.sbr
+     1>Done Building Project "F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc12\plugin_vst2_vc12.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:16.05
