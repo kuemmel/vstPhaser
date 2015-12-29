@@ -1,0 +1,8 @@
+﻿Build started 29.12.2015 13:49:54.
+     1>Project "F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc10\plugin_vst2_vc10.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.Platform.targets(64,5): error MSB8020: The build tools for Visual Studio 2010 (Platform Toolset = 'v100') cannot be found. To build using the v100 build tools, please install Visual Studio 2010 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Upgrade Solution...".
+     1>Done Building Project "F:\Daten\Dokumente\Studium\MS - haw\vst\VST3 SDK\public.sdk\avprg\vst\Phaser\vc10\plugin_vst2_vc10.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.04

@@ -13,7 +13,13 @@ static const FUID PluginUID (0x89E8AE6F, 0x92554F63, 0x96FAE414, 0x3C945A18);
 enum
 {
 	/** parameter ID */
-	kGainId = 0
+	  kGainId = 0
+	, kMixId = 1
+	, kResonanceId = 2
+	, kSpeedId = 3
+	, kStagesId = 4
+	, kDepthId = 5
+	, kStateId = 6
 };
 
 
