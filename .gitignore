@@ -36,7 +36,7 @@
 *.userosscache
 *.sln.docstates
 *.sdf
-*.opensd
+*.opensdf
 # ignore results
 vc12/[Ww]in32
 c12/x64/
