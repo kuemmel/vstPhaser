@@ -33,7 +33,10 @@ private:
 	double* y1s;
 	double* y2s;
 
+	double* shiftedOutputs;
+
 	SecondOrderFilter* sof;
+	SecondOrderFilter* sof2;
 
 };
 #endif

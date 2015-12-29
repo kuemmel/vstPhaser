@@ -46,12 +46,12 @@ void SecondOrderFilter::set(FilterType type, double m_freq, double m_fq, double 
 		a2 = alpha - 1.0;
 	}
 	else if (type == NOTCH){
-		b0 = alpha;
-		b1 = 0.0;
-		b2 = -alpha;
-		a0 = 1.0 - alpha;
+		b0 = 1;
+		b1 = -2.0 * cosw;
+		b2 = 1;
+		a0 = 1.0 + alpha;
 		a1 = 2.0 * cosw;
-		a2 = alpha + 1.0;
+		a2 = alpha - 1.0;
 	}
 	else if (type == LOWPASS){
 		b0 = (1.0 - cosw) * 0.5;

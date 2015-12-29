@@ -6,18 +6,24 @@
 PluginProcessor::PluginProcessor(){
 	oscillatorIndex = 0;
 	oscillatorFrequency = 300;
-	minFrequency = 2000;
-	maxFrequency = 21000;
+	minFrequency = 500;
+	maxFrequency = 18000;
 	depth = 1;
-	m_fq = 10;
+	m_fq = 0.49;
 
 	x1s = new double[depth];	x1s[0] = 0;
 	x2s = new double[depth];	x2s[0] = 0;
 	y1s = new double[depth];	y1s[0] = 0;
 	y2s = new double[depth];	y2s[0] = 0;
 
+	shiftedOutputs = new double[depth];
+	for (int i = 0; i < depth; i++){
+		shiftedOutputs[0];
+	}
+
 	sof = new SecondOrderFilter();
-	frequencyChange = 1;
+	sof2 = new SecondOrderFilter();
+	frequencyChange = 0.25;
 }
 
 PluginProcessor::~PluginProcessor(){
@@ -27,6 +33,8 @@ PluginProcessor::~PluginProcessor(){
 	delete y2s;
 
 	delete sof;
+
+	delete shiftedOutputs;
 }
 
 void PluginProcessor::initialize(float sampleRate){
@@ -43,8 +51,8 @@ double PluginProcessor::getTargetFrequency(){
 		minFrequency = maxFrequency;
 		frequencyChange *= -1;
 	}
-	else if (minFrequency <= 2000){
-		minFrequency = 2000;
+	else if (minFrequency <= 100){
+		minFrequency = 100;
 		frequencyChange *= -1;
 	}
 	return minFrequency;
@@ -54,13 +62,37 @@ float PluginProcessor::processOneSample(float input){
 
 	//float output = getTargetFrequency();
 	float output = input;
+	float saveOut = input;
 
 	double frequency = getTargetFrequency();
-	sof->set(BANDPASS, frequency, m_fq, -1000);
+	sof->set(NOTCH, frequency, m_fq, -1000);
+
+	double outputMix = shiftedOutputs[depth - 1];
+	for (int i = depth - 1; i > 0; i--){
+		shiftedOutputs[i] = shiftedOutputs[i - 1];
+	}
 
 	for (unsigned int i = 0; i < depth; i++){
+
+		/*sof->set(HIGHPASS, frequency + 10*depth, m_fq, -1000);
+		double o1 = sof->processOneSample(output);
+
+		sof->set(LOWPASS, frequency - 10*depth, m_fq, -1000);
+		double o2 = sof->processOneSample(output);
+
+		output = o1*0.5 + o2*0.5;*/
+
+		//double frequency = getTargetFrequency();
+		//sof->set(NOTCH, frequency, m_fq, -1000);
 		output = sof->processOneSample(output);
 	}
+	
+	/*sof2->set(BANDPASS, frequency, m_fq, -1000);
+	for (unsigned int i = 0; i < depth; i++){
+
+		saveOut = sof2->processOneSample(saveOut);
+	}*/
+	shiftedOutputs[0] = saveOut;
 
 	/*for (unsigned int i = 1; i < depth; i++){
 
@@ -97,7 +129,7 @@ float PluginProcessor::processOneSample(float input){
 		
 	//}
 
-	return output;
+	return output/*0.5 + outputMix*-0.5*/;
 }
 
 void PluginProcessor::process(float* input, float*output, int numberOfSamples){
