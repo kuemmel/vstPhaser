@@ -13,13 +13,12 @@ static const FUID PluginUID (0x89E8AE6F, 0x92554F63, 0x96FAE414, 0x3C945A18);
 enum
 {
 	/** parameter ID */
-	  kGainId = 0
-	, kMixId = 1
-	, kResonanceId = 2
-	, kSpeedId = 3
-	, kStagesId = 4
-	, kDepthId = 5
-	, kStateId = 6
+	  kMixId = 0
+	, kResonanceId = 1
+	, kSpeedId = 2
+	, kStagesId = 3
+	, kDepthId = 4
+	, kStateId = 5
 };
 
 
@@ -35,6 +34,13 @@ public:
 private:
 	int numChannels;
 	SampleRate sampleRate;
+	//some (placeholder) variables
+	int mix;
+	int resonance;
+	int speed;
+	int stages;
+	float depth;
+	bool state;
 private:
 	PluginProcessor leftProcessor;
 	PluginProcessor rightProcessor;
