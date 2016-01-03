@@ -34,13 +34,6 @@ public:
 private:
 	int numChannels;
 	SampleRate sampleRate;
-	//some (placeholder) variables
-	int mix;
-	int resonance;
-	int speed;
-	int stages;
-	float depth;
-	bool state;
 private:
 	PluginProcessor leftProcessor;
 	PluginProcessor rightProcessor;
