@@ -9,6 +9,7 @@ public:
 	~PluginProcessor();
 	void initialize(float sampleRate);
 	float processOneSample(float);
+	void setMix(float mix);
 	void process(float* input, float*output, int numberOfSamples);
 
 private:
@@ -23,6 +24,7 @@ private:
 	double maxFrequency;
 
 	unsigned int depth;
+	float gain;
 
 	double m_fq;
 

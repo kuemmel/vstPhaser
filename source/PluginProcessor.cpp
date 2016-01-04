@@ -129,7 +129,11 @@ float PluginProcessor::processOneSample(float input){
 		
 	//}
 
-	return output/*0.5 + outputMix*-0.5*/;
+	return output*gain/*0.5 + outputMix*-0.5*/;
+}
+
+void PluginProcessor::setMix(float mix) {
+	gain = mix;
 }
 
 void PluginProcessor::process(float* input, float*output, int numberOfSamples){
