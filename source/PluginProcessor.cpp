@@ -37,8 +37,13 @@ PluginProcessor::~PluginProcessor(){
 	delete shiftedOutputs;
 }
 
-void PluginProcessor::initialize(float sampleRate){
+void PluginProcessor::initialize(float sampleRate, unsigned short mix, unsigned short resonance, unsigned short speed, unsigned short depth, unsigned short stages){
 	this->sampleRate = sampleRate;
+	this->mix = mix;
+    this->resonance = resonance; 
+	this-> oscillatorFrequency = speed;
+    this->depth = depth; 
+    this->stages = stages; 
 	sof->initialize(sampleRate);
 }
 
@@ -132,9 +137,22 @@ float PluginProcessor::processOneSample(float input){
 	return output*gain;// *outputMix + (1-outputMix)*input;
 }
 
-void PluginProcessor::setMix(float mix) {
-	gain = mix;
+void PluginProcessor::setMix(unsigned short mix) {
+    this->mix = mix;
 }
+void PluginProcessor::setResonance(unsigned short resonance) {
+    this->resonance = resonance;
+} 
+void PluginProcessor::setSpeed(unsigned short speed) {
+    this->oscillatorFrequency = speed;
+}
+void PluginProcessor::setDepth(unsigned short depth) {
+    this->depth = depth;
+} 
+void PluginProcessor::setStages(unsigned short stages) {
+    this->stages = stages;
+} 
+
 
 void PluginProcessor::process(float* input, float*output, int numberOfSamples){
 	for(int i = 0; i < numberOfSamples; i++){

@@ -25,7 +25,7 @@ tresult PLUGIN_API Phaser::initialize (FUnknown* context){
 	//amount of notchfilters the signal is going through, 0 is off
 	parameters.addParameter(new RangeParameter(STR16("Stages"), kStagesId, STR16("Stages"), 0, 4, 0));
 	//effect of the notchfilters on the basis
-	parameters.addParameter(new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), -100, 6, -100));
+	parameters.addParameter(new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0, 100, 50));
 
 	// fix for RangeParameter (default value is not yet set)
 	for(int i = 0; i < parameters.getParameterCount(); i++){
@@ -45,8 +45,8 @@ Phaser::Phaser ()
 void Phaser::startProcessing(int numChannels, SampleRate sampleRate){
 	this->numChannels = numChannels;
 	this->sampleRate = sampleRate;
-	leftProcessor.initialize(sampleRate);
-	rightProcessor.initialize(sampleRate);
+	leftProcessor.initialize(sampleRate,50,0,50,50,0);
+	rightProcessor.initialize(sampleRate, 50, 0, 50, 50, 0);
 }
 tresult PLUGIN_API Phaser::process (ProcessData& data)
 {
@@ -59,20 +59,23 @@ tresult PLUGIN_API Phaser::process (ProcessData& data)
     }
     if(hasInputParameterChanged(data, kResonanceId)) {
         float paramValue = getInputParameterChange(data,kResonanceId);
-		
-        
+		//hack
+		setOutputParameterChange(data, kResonanceId, floor(paramValue));
     }
 	if(hasInputParameterChanged(data, kSpeedId)) {
         float paramValue = getInputParameterChange(data,kSpeedId);
-        
+		//hack
+		setOutputParameterChange(data, kSpeedId, floor(paramValue));
     }
 	if(hasInputParameterChanged(data, kStagesId)) {
         float paramValue = getInputParameterChange(data,kStagesId);
-        
+		//hack
+		setOutputParameterChange(data, kStagesId, floor(paramValue));
     }
 	if(hasInputParameterChanged(data, kDepthId)) {
         float paramValue = getInputParameterChange(data,kDepthId);
-        
+		//hack
+		setOutputParameterChange(data, kDepthId, floor(paramValue));
     }
     
  	if (numChannels > 0){

@@ -47,3 +47,6 @@ vc12/bld/
 vc12/[Bb]in/
 vc12/[Oo]bj/
 
+vc12/*.ilk
+vc12/*.sdf
+vb12/*.suo
