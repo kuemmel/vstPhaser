@@ -23,15 +23,15 @@ private:
 	double maxFrequency;
 
 	unsigned int depth;
+	float mix;
+	int stages;
+	int resonance;
+
+	double prevBandpass;
 
 	double m_fq;
 
 	double frequencyChange;
-
-	double* x1s;
-	double* x2s;
-	double* y1s;
-	double* y2s;
 
 	double* shiftedOutputs;
 
