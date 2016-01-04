@@ -88,6 +88,9 @@
     <ClCompile Include="..\source\plugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SecondOrderFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\version.h">
@@ -187,6 +190,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\plugin.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SecondOrderFilter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

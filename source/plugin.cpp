@@ -56,8 +56,6 @@ tresult PLUGIN_API Phaser::process (ProcessData& data)
         float paramValue = getInputParameterChange(data, kGainId);
 		float dB = 106 * paramValue - 100;
 		float gain = pow(10, dB/20);
-		leftProcessor.setGain(gain);
-		rightProcessor.setGain(gain);
     }
  	if (numChannels > 0){
 		float* leftInputChannel = data.inputs[0].channelBuffers32[0];
