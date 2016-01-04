@@ -37,6 +37,9 @@
 *.sln.docstates
 *.sdf
 *.opensdf
+*.ilk
+*.sdf
+*.v12.suo
 # ignore results
 vc12/[Ww]in32
 c12/x64/
