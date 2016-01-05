@@ -91,6 +91,9 @@
     <ClCompile Include="..\source\SecondOrderFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Stages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\version.h">
@@ -195,6 +198,7 @@
     <ClInclude Include="..\source\SecondOrderFilter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\Stages.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource\plugin.rc">
