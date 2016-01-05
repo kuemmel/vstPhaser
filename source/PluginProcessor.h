@@ -20,7 +20,7 @@ class PluginProcessor{
 public:
 	PluginProcessor();
 	~PluginProcessor();
-	void initialize(float sampleRate, float mix, float resonance, unsigned float speed, float depth, unsigned short stages);
+	void initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages);
 	float processOneSample(float);
 	void process(float* input, float*output, int numberOfSamples);
 
@@ -28,7 +28,7 @@ public:
 	void setMix(float mix);
 	void setGain(float gain);
 	void setResonance(float resonance);
-	void setSpeed(unsigned float speed);
+	void setSpeed(float speed);
 	void setDepth(float depth);
 	void setStages(unsigned short stages);
 private:
@@ -37,7 +37,7 @@ private:
 private:
 	float sampleRate;
 	unsigned long oscillatorIndex;
-	unsigned float oscillatorFrequency;
+	float oscillatorFrequency;
 
 	double minFrequency;
 	double maxFrequency;
@@ -45,7 +45,7 @@ private:
 	float depth;
 	float mix;
 	unsigned short stages;
-	float resonance;
+	int resonance;
 
 	double prevBandpass;
 

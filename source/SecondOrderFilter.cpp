@@ -53,6 +53,14 @@ void SecondOrderFilter::set(FilterType type, double m_freq, double m_fq, double 
 		a1 = 2.0 * cosw;
 		a2 = alpha - 1.0;
 	}
+	else if (type == ALLPASS){
+		b0 = 1 - alpha;
+		b1 = -2.0 * cosw;
+		b2 = 1 +  alpha;
+		a0 = 1.0 + alpha;
+		a1 = 2.0 * cosw;
+		a2 = alpha - 1.0;
+	}
 	else if (type == LOWPASS){
 		b0 = (1.0 - cosw) * 0.5;
 		b1 = 1.0 - cosw;
