@@ -20,9 +20,9 @@ PluginProcessor::PluginProcessor(){
 
 	prevBandpass = 0;
 
-	shiftedOutputs = new double[depth];
+	shiftedOutputs = new double[resonance];
 	for (int i = 0; i < resonance; i++){
-		shiftedOutputs[0];
+		shiftedOutputs[i] = 0;
 	}
 
 	sof = new SecondOrderFilter();
@@ -38,10 +38,10 @@ PluginProcessor::~PluginProcessor(){
 	delete shiftedOutputs;
 }
 
-void PluginProcessor::initialize(float sampleRate, float mix, float resonance, unsigned float speed, float depth, unsigned short stages){
+void PluginProcessor::initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages){
 	this->sampleRate = sampleRate;
 	this->mix = mix;
-    this->resonance = resonance;
+	setResonance(resonance);
 	this-> oscillatorFrequency = speed;
     this->depth = depth;
     this->stages = stages;
@@ -54,10 +54,10 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, u
 	Oscillator fixen -.-
 */
 double PluginProcessor::getTargetFrequency(){
-	/*double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
+	double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
 	oscillatorIndex++;
-	return minFrequency + (maxFrequency - minFrequency) * (value*0.5 + 0.5);*/
-	minFrequency += frequencyChange;
+	return minFrequency + (maxFrequency - minFrequency) * (value*0.5 + 0.5);
+	/*minFrequency += frequencyChange;
 	if (minFrequency >= maxFrequency){
 		minFrequency = maxFrequency;
 		frequencyChange *= -1;
@@ -66,7 +66,7 @@ double PluginProcessor::getTargetFrequency(){
 		minFrequency = 100;
 		frequencyChange *= -1;
 	}
-	return minFrequency;
+	return minFrequency;*/
 }
 
 float PluginProcessor::processOneSample(float input){
@@ -74,23 +74,24 @@ float PluginProcessor::processOneSample(float input){
 	float output = input;
 	float saveOut = input;
 
-	double filterQ = m_fq / 2 + m_fq*depth / 100;
+	//double filterQ = m_fq / 2 + m_fq*(depth / 100);
+	double filterQ = m_fq*depth;
 
 	double frequency = getTargetFrequency();
-	sof->set(NOTCH, frequency, filterQ, -1000);
+	sof->set(ALLPASS, frequency, filterQ, -1000);
 
-	for (unsigned int i = 0; i < stages*2; i++){
+	for (int i = 0; i < pow(2,stages); i++){
 
 		output = sof->processOneSample(output);
 	}
 	
 	sof2->set(BANDPASS, frequency, filterQ, -1000);
-	for (unsigned int i = 0; i < stages * 2; i++){
+	for (int i = 0; i < pow(2, stages); i++){
 
 		saveOut = sof2->processOneSample(saveOut);
 	}
 
-	output = input*(1 - mix) + (output*0.5+prevBandpass*0.5)*(mix);
+	output = input*(1 - mix) + (output/*0.5+prevBandpass*0.5*/)*(mix);
 	prevBandpass = saveOut;
 
 	if (resonance > 0){
@@ -112,8 +113,13 @@ void PluginProcessor::setMix(float mix) {
 }
 void PluginProcessor::setResonance(float resonance) {
     this->resonance = resonance;
+	delete shiftedOutputs;
+	shiftedOutputs = new double[this->resonance];
+	for (int i = 0; i < this->resonance; i++){
+		shiftedOutputs[i] = 0;
+	}
 }
-void PluginProcessor::setSpeed(unsigned float speed) {
+void PluginProcessor::setSpeed(float speed){
     this->oscillatorFrequency = speed;
 }
 void PluginProcessor::setDepth(float depth) {

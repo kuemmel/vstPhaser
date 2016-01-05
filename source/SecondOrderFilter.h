@@ -14,7 +14,8 @@ enum FilterType{
 	HIGHPASS,
 	LOW_SHELF,
 	HIGH_SHELF,
-	NUMTYPES
+	NUMTYPES,
+	ALLPASS
 };
 
 class SecondOrderFilter{

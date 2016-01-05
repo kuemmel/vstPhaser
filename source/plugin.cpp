@@ -45,37 +45,45 @@ Phaser::Phaser ()
 void Phaser::startProcessing(int numChannels, SampleRate sampleRate){
 	this->numChannels = numChannels;
 	this->sampleRate = sampleRate;
-	leftProcessor.initialize(sampleRate,50,0,50,50,0);
-	rightProcessor.initialize(sampleRate, 50, 0, 50, 50, 0);
+	leftProcessor.initialize(sampleRate,0.5,0,50,50,0);
+	rightProcessor.initialize(sampleRate, 0.5, 0, 50, 50, 0);
 }
 tresult PLUGIN_API Phaser::process (ProcessData& data)
 {
     if (hasInputParameterChanged(data, kMixId)) {
         float paramValue = getInputParameterChange(data, kMixId);
-		float dB = 106 * paramValue - 100;
-		float gain = pow(10, dB/20);
-		leftProcessor.setMix(gain);
-		rightProcessor.setMix(gain);
+		//float dB = 106 * paramValue - 100;
+		//float gain = pow(10, dB/20);
+		leftProcessor.setMix(paramValue/100);
+		rightProcessor.setMix(paramValue / 100);
     }
     if(hasInputParameterChanged(data, kResonanceId)) {
         float paramValue = getInputParameterChange(data,kResonanceId);
+		leftProcessor.setResonance(paramValue);
+		rightProcessor.setResonance(paramValue);
 		//hack
-		setOutputParameterChange(data, kResonanceId, floor(paramValue));
+		//setOutputParameterChange(data, kResonanceId, floor(paramValue));
     }
 	if(hasInputParameterChanged(data, kSpeedId)) {
-        float paramValue = getInputParameterChange(data,kSpeedId);
+		float paramValue = getInputParameterChange(data, kSpeedId);
+		leftProcessor.setSpeed(paramValue);
+		rightProcessor.setSpeed(paramValue);
 		//hack
-		setOutputParameterChange(data, kSpeedId, floor(paramValue));
+		//setOutputParameterChange(data, kSpeedId, floor(paramValue));
     }
 	if(hasInputParameterChanged(data, kStagesId)) {
-        float paramValue = getInputParameterChange(data,kStagesId);
+		float paramValue = getInputParameterChange(data, kStagesId);
+		leftProcessor.setStages(paramValue);
+		rightProcessor.setStages(paramValue);
 		//hack
-		setOutputParameterChange(data, kStagesId, floor(paramValue));
+		//setOutputParameterChange(data, kStagesId, floor(paramValue));
     }
 	if(hasInputParameterChanged(data, kDepthId)) {
-        float paramValue = getInputParameterChange(data,kDepthId);
+		float paramValue = getInputParameterChange(data, kDepthId);
+		leftProcessor.setDepth(paramValue);
+		rightProcessor.setDepth(paramValue);
 		//hack
-		setOutputParameterChange(data, kDepthId, floor(paramValue));
+		//setOutputParameterChange(data, kDepthId, floor(paramValue));
     }
     
  	if (numChannels > 0){
