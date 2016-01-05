@@ -4,11 +4,11 @@
 #include "SecondOrderFilter.h"
 /**
  * Phaser plugin processor
- * A phaser is an audio effect, for a description see here: https://en.wikipedia.org/wiki/Phaser_(effect) 
+ * A phaser is an audio effect, for a description see here: https://en.wikipedia.org/wiki/Phaser_(effect)
  * this effect is made for a vst host to be used as a realtime audio effect on an instrument like a guitar.
- * 
+ *
  * uses a NotchFilter and a Oscillator for the effect
- * 
+ *
  * @sampleRate: sampleRate of the audio stream
  * @mix the amount of the processed part of the end result
  * @depth strength of the notchfilter
@@ -20,16 +20,16 @@ class PluginProcessor{
 public:
 	PluginProcessor();
 	~PluginProcessor();
-	void initialize(float sampleRate, unsigned short mix, unsigned short resonance, unsigned short speed, unsigned short depth, unsigned short stages);
+	void initialize(float sampleRate, float mix, float resonance, unsigned float speed, float depth, unsigned short stages);
 	float processOneSample(float);
 	void process(float* input, float*output, int numberOfSamples);
 
 	//setter methods
-	void setMix(unsigned short mix);
-	void setGain(unsigned short gain);
-	void setResonance(unsigned short resonance);
-	void setSpeed(unsigned short speed);
-	void setDepth(unsigned short depth);
+	void setMix(float mix);
+	void setGain(float gain);
+	void setResonance(float resonance);
+	void setSpeed(unsigned float speed);
+	void setDepth(float depth);
 	void setStages(unsigned short stages);
 private:
 	double getTargetFrequency();
@@ -37,26 +37,21 @@ private:
 private:
 	float sampleRate;
 	unsigned long oscillatorIndex;
-	unsigned int oscillatorFrequency;
+	unsigned float oscillatorFrequency;
 
 	double minFrequency;
 	double maxFrequency;
 
-	unsigned int depth;
-	float gain;
-	
-	unsigned short mix;
-	unsigned short resonance;
+	float depth;
+	float mix;
 	unsigned short stages;
+	float resonance;
+
+	double prevBandpass;
 
 	double m_fq;
 
 	double frequencyChange;
-
-	double* x1s;
-	double* x2s;
-	double* y1s;
-	double* y2s;
 
 	double* shiftedOutputs;
 

@@ -4,20 +4,24 @@
 #include <math.h>
 
 PluginProcessor::PluginProcessor(){
+
 	oscillatorIndex = 0;
-	oscillatorFrequency = 300;
+	oscillatorFrequency = 100;
+
 	minFrequency = 500;
 	maxFrequency = 18000;
+
 	depth = 1;
+	mix = 0.5;
+	stages = 1;
+	resonance = 0;
+
 	m_fq = 0.49;
 
-	x1s = new double[depth];	x1s[0] = 0;
-	x2s = new double[depth];	x2s[0] = 0;
-	y1s = new double[depth];	y1s[0] = 0;
-	y2s = new double[depth];	y2s[0] = 0;
+	prevBandpass = 0;
 
 	shiftedOutputs = new double[depth];
-	for (int i = 0; i < depth; i++){
+	for (int i = 0; i < resonance; i++){
 		shiftedOutputs[0];
 	}
 
@@ -27,26 +31,28 @@ PluginProcessor::PluginProcessor(){
 }
 
 PluginProcessor::~PluginProcessor(){
-	delete x1s;
-	delete x2s;
-	delete y1s;
-	delete y2s;
 
 	delete sof;
+	delete sof2;
 
 	delete shiftedOutputs;
 }
 
-void PluginProcessor::initialize(float sampleRate, unsigned short mix, unsigned short resonance, unsigned short speed, unsigned short depth, unsigned short stages){
+void PluginProcessor::initialize(float sampleRate, float mix, float resonance, unsigned float speed, float depth, unsigned short stages){
 	this->sampleRate = sampleRate;
 	this->mix = mix;
-    this->resonance = resonance; 
+    this->resonance = resonance;
 	this-> oscillatorFrequency = speed;
-    this->depth = depth; 
-    this->stages = stages; 
+    this->depth = depth;
+    this->stages = stages;
 	sof->initialize(sampleRate);
+	sof2->initialize(sampleRate);
 }
 
+/**
+	FUCKING TO DO::
+	Oscillator fixen -.-
+*/
 double PluginProcessor::getTargetFrequency(){
 	/*double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
 	oscillatorIndex++;
@@ -65,93 +71,57 @@ double PluginProcessor::getTargetFrequency(){
 
 float PluginProcessor::processOneSample(float input){
 
-	//float output = getTargetFrequency();
 	float output = input;
 	float saveOut = input;
 
+	double filterQ = m_fq / 2 + m_fq*depth / 100;
+
 	double frequency = getTargetFrequency();
-	sof->set(NOTCH, frequency, m_fq, -1000);
+	sof->set(NOTCH, frequency, filterQ, -1000);
 
-	double outputMix = shiftedOutputs[depth - 1];
-	for (int i = depth - 1; i > 0; i--){
-		shiftedOutputs[i] = shiftedOutputs[i - 1];
-	}
+	for (unsigned int i = 0; i < stages*2; i++){
 
-	for (unsigned int i = 0; i < depth; i++){
-
-		/*sof->set(HIGHPASS, frequency + 10*depth, m_fq, -1000);
-		double o1 = sof->processOneSample(output);
-
-		sof->set(LOWPASS, frequency - 10*depth, m_fq, -1000);
-		double o2 = sof->processOneSample(output);
-
-		output = o1*0.5 + o2*0.5;*/
-
-		//double frequency = getTargetFrequency();
-		//sof->set(NOTCH, frequency, m_fq, -1000);
 		output = sof->processOneSample(output);
 	}
 	
-	/*sof2->set(BANDPASS, frequency, m_fq, -1000);
-	for (unsigned int i = 0; i < depth; i++){
+	sof2->set(BANDPASS, frequency, filterQ, -1000);
+	for (unsigned int i = 0; i < stages * 2; i++){
 
 		saveOut = sof2->processOneSample(saveOut);
-	}*/
-	shiftedOutputs[0] = saveOut;
+	}
 
-	/*for (unsigned int i = 1; i < depth; i++){
+	output = input*(1 - mix) + (output*0.5+prevBandpass*0.5)*(mix);
+	prevBandpass = saveOut;
 
-		double frequency = getTargetFrequency();
-		double w = 2.0 * M_PI * (frequency / sampleRate);
-		double sinw = sin(w);
-		double cosw = cos(w);
-		double alpha = sinw / (2.0 * m_fq);
-		double amp = 0.001;
+	if (resonance > 0){
+		double outputMix = shiftedOutputs[resonance - 1];
+		for (int i = resonance - 1; i > 0; i--){
+			shiftedOutputs[i] = shiftedOutputs[i - 1];
+		}
 
-		double b0 = 1.0 + (alpha * amp);
-		double b1 = -2.0 * cosw;
-		double b2 = 1.0 - (alpha * amp);
-		double a0 = 1.0 + (alpha / amp);
-		double a1 = 2.0 * cosw;
-		double a2 = -1.0 + (alpha / amp);
+		shiftedOutputs[0] = output;
 
-		double a = b0 / a0;
-		double b = b1 / a0;
-		double c = b2 / a0;
-		double d = a1 / a0;
-		double e = a2 / a0;
-
-		output = (a*output) + (b*x1s[i - 1]) + (c*x2s[i - 1]) + (d*y1s[i - 1]) + (e*y2s[i - 1]);
-		//output = (a*output) + (b*x1s[0]) + (c*x2s[0]) + (d*y1s[0]) + (e*y2s[0]);
-		x2s[i] = x1s[i - 1];
-		x1s[i] = input;
-		y2s[i] = y1s[i-1];
-		y1s[i] = output;
-		/*x2s[0] = x1s[0];
-		x1s[0] = input;
-		y2s[0] = y1s[0];
-		y1s[0] = output;*/
-		
-	//}
-
-	return output*gain;// *outputMix + (1-outputMix)*input;
+		return output*0.5 + outputMix*0.5;
+	}
+	else
+		return output;
 }
 
-void PluginProcessor::setMix(unsigned short mix) {
+void PluginProcessor::setMix(float mix) {
     this->mix = mix;
 }
-void PluginProcessor::setResonance(unsigned short resonance) {
+void PluginProcessor::setResonance(float resonance) {
     this->resonance = resonance;
-} 
-void PluginProcessor::setSpeed(unsigned short speed) {
+}
+void PluginProcessor::setSpeed(unsigned float speed) {
     this->oscillatorFrequency = speed;
 }
-void PluginProcessor::setDepth(unsigned short depth) {
+void PluginProcessor::setDepth(float depth) {
     this->depth = depth;
-} 
+}
 void PluginProcessor::setStages(unsigned short stages) {
     this->stages = stages;
-} 
+}
 
 
 void PluginProcessor::process(float* input, float*output, int numberOfSamples){
