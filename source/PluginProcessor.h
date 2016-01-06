@@ -2,6 +2,7 @@
 #define PLUGIN_PROCESSOR_H
 
 #include "SecondOrderFilter.h"
+#include "FrequencyTimeShift.h"
 /**
  * Phaser plugin processor
  * A phaser is an audio effect, for a description see here: https://en.wikipedia.org/wiki/Phaser_(effect)
@@ -58,5 +59,6 @@ private:
 	SecondOrderFilter* sof;
 	SecondOrderFilter* sof2;
 
+	FrequencyTimeShift* fts;
 };
 #endif

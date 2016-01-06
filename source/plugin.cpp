@@ -54,8 +54,8 @@ tresult PLUGIN_API Phaser::process (ProcessData& data)
         float paramValue = getInputParameterChange(data, kMixId);
 		//float dB = 106 * paramValue - 100;
 		//float gain = pow(10, dB/20);
-		leftProcessor.setMix(paramValue/100);
-		rightProcessor.setMix(paramValue / 100);
+		leftProcessor.setMix((float) paramValue / 100.0);
+		rightProcessor.setMix((float) paramValue / 100.0);
     }
     if(hasInputParameterChanged(data, kResonanceId)) {
         float paramValue = getInputParameterChange(data,kResonanceId);
