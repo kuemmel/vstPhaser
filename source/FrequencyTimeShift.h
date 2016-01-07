@@ -10,7 +10,7 @@ public:
 
 	void initialize(double sampleRate);
 
-	void add(double input, double frequency, double phaseShift = M_PI);
+	void add(double input, double frequency, int width = 0, double phaseShift = M_PI);
 	double get();
 
 private:

@@ -20,7 +20,7 @@ void FrequencyTimeShift::initialize(double sampleRate){
 		buffer[i] = 0;
 }
 
-void FrequencyTimeShift::add(double input, double frequency, double phaseShift){
+void FrequencyTimeShift::add(double input, double frequency, int width, double phaseShift){
 	while (phaseShift >= 2*M_PI)
 		phaseShift -= 2 * M_PI;
 	
@@ -28,10 +28,18 @@ void FrequencyTimeShift::add(double input, double frequency, double phaseShift){
 	positionToWrite += bufferReadPosition;
 	positionToWrite %= bufferLength;
 
-	if (buffer[positionToWrite] != 0)
-		buffer[positionToWrite] = buffer[positionToWrite] * (1 - mixByExistingValue) + input*mixByExistingValue;
-	else
-		buffer[positionToWrite] = input;
+	for (int i = positionToWrite - width; i <= positionToWrite + width; i++){
+		int ii = i % bufferLength;
+		if (ii < 0)
+			ii += bufferLength;
+
+		double valueToWrite = input*(1 - (abs(i - positionToWrite) / ((width == 0) ? 1 : width)));
+
+		if (buffer[ii] != 0)
+			buffer[ii] = buffer[ii] * (1 - mixByExistingValue) + input*mixByExistingValue;
+		else
+			buffer[ii] = input;
+	}
 }
 
 double FrequencyTimeShift::get(){

@@ -9,7 +9,7 @@ PluginProcessor::PluginProcessor(){
 	oscillatorFrequency = 100;
 
 	minFrequency = 1;
-	maxFrequency = 411;
+	maxFrequency = 26;
 
 	depth = 1;
 	mix = 0.5;
@@ -61,7 +61,7 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 double PluginProcessor::getTargetFrequency(){
 	double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
 	oscillatorIndex++;
-	return minFrequency + (maxFrequency - minFrequency) * (value*0.5 + 0.5);
+	return (minFrequency + depth) + ((maxFrequency + depth) - (minFrequency + depth)) * (value*0.5 + 0.5);
 	/*minFrequency += frequencyChange;
 	if (minFrequency >= maxFrequency){
 		minFrequency = maxFrequency;
@@ -88,9 +88,9 @@ float PluginProcessor::processOneSample(float input){
 	for (int i = 0; i < pow(2,stages); i++){
 
 		output = sof->processOneSample(output);
-	}
+	}*/
 	
-	sof2->set(BANDPASS, frequency, filterQ, -1000);
+	/*sof2->set(BANDPASS, frequency, filterQ, -1000);
 	for (int i = 0; i < pow(2, stages); i++){
 
 		saveOut = sof2->processOneSample(saveOut);
