@@ -20,6 +20,10 @@ AllpassFilter::AllpassFilter(float sample_rate, float new_gain, float frequency_
 	}
 }
 
+AllpassFilter::~AllpassFilter(){
+	delete[] coefficients;
+}
+
 void AllpassFilter::init(int notch_frequency) {
 	this->H.a = this->coefficients[notch_frequency][0];
 	this->H.b = this->coefficients[notch_frequency][1];

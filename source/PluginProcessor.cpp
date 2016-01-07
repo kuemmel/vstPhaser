@@ -30,9 +30,6 @@ PluginProcessor::PluginProcessor(){
 	sof2 = new SecondOrderFilter();
 	frequencyChange = 0.25;
 
-	this->allpass = new AllpassFilter(sampleRate, 0, 200, 200, m_fq);
-	this->allpass->init(0);
-
 
 }
 
@@ -42,6 +39,8 @@ PluginProcessor::~PluginProcessor(){
 	delete sof2;
 
 	delete shiftedOutputs;
+
+	delete allpass;
 }
 
 void PluginProcessor::initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages){
@@ -53,6 +52,9 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
     this->stages = stages;
 	sof->initialize(sampleRate);
 	sof2->initialize(sampleRate);
+
+	this->allpass = new AllpassFilter(sampleRate, 0.01, 50, 100, m_fq*10);
+	this->allpass->init(10);
 }
 
 double PluginProcessor::getTargetFrequency(){
@@ -65,7 +67,7 @@ float PluginProcessor::processOneSample(float input){
 
 	float output = this->allpass->process(input);
 
-	return output;
+	return output*mix + input*(1 - mix);
 }
 
 void PluginProcessor::setMix(float mix) {

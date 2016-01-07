@@ -17,7 +17,7 @@ namespace Vst {
  **/
 tresult PLUGIN_API Phaser::initialize (FUnknown* context){
 	//how much of the sound is coming from the filter(s)
-	parameters.addParameter(new RangeParameter(STR16("Mix"), kMixId, STR16("%"), 0, 100, 50));
+	parameters.addParameter(new RangeParameter(STR16("Mix"), kMixId, STR16("%"), 0, 1, 0.5));
 	//The amount of reverb that is mixed on the notch-filter
 	parameters.addParameter(new RangeParameter(STR16("Resonance"), kResonanceId, STR16("%"), 0, 100, 0));
 	//the speed at which the notchfilter oscillates("speed" is traditionally used)
@@ -54,8 +54,8 @@ tresult PLUGIN_API Phaser::process (ProcessData& data)
         float paramValue = getInputParameterChange(data, kMixId);
 		//float dB = 106 * paramValue - 100;
 		//float gain = pow(10, dB/20);
-		leftProcessor.setMix(paramValue/100);
-		rightProcessor.setMix(paramValue / 100);
+		leftProcessor.setMix(paramValue);
+		rightProcessor.setMix(paramValue);
     }
     if(hasInputParameterChanged(data, kResonanceId)) {
         float paramValue = getInputParameterChange(data,kResonanceId);
