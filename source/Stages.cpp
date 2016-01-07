@@ -56,7 +56,7 @@ unsigned short Stages::getIndex() {
 }
 
 unsigned short Stages::reset() {
-	return this->resetIndex;
+	return resetIndex();
 }
 
 unsigned short Stages::resetIndex() {

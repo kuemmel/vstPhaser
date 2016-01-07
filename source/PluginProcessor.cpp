@@ -9,7 +9,7 @@ PluginProcessor::PluginProcessor(){
 	oscillatorFrequency = 100;
 
 	minFrequency = 500;
-	maxFrequency = 18000;
+	maxFrequency = 15000;
 
 	depth = 1;
 	mix = 0.5;
