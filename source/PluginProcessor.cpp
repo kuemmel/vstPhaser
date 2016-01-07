@@ -72,6 +72,7 @@ float PluginProcessor::processOneSample(float input){
 
 void PluginProcessor::setMix(float mix) {
     this->mix = mix;
+	this->allpass->init(mix*100);
 }
 void PluginProcessor::setResonance(float resonance) {
     this->resonance = resonance;
