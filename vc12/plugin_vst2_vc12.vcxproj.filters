@@ -198,7 +198,9 @@
     <ClInclude Include="..\source\SecondOrderFilter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Stages.h" />
+    <ClInclude Include="..\source\Stages.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource\plugin.rc">

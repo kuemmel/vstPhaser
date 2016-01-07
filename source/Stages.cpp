@@ -11,6 +11,10 @@ Stages::Stages() {
 	init(0);
 }
 
+Stages::~Stages() {
+	delete this->stage_keys;
+}
+
 Stages::Stages(unsigned short stage_key) {
 	initArray();
 	init(stage_key);
@@ -19,7 +23,7 @@ Stages::Stages(unsigned short stage_key) {
 void Stages::initArray() {
 	unsigned short stage_keys[5] = { 0, 2, 4, 8, 12 };
 	this->stage_keys = new unsigned short[5]();
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 5; i++) {
 		this->stage_keys[i] = stage_keys[i];
 	}
 }
@@ -47,12 +51,17 @@ bool Stages::checkIndex() {
 		return true;
 	}
 	else {
+		this->index = 0;
 		return false;
 	}
 }
 
 unsigned short Stages::getIndex() {
 	return this->index;
+}
+
+unsigned short Stages::getStage() {
+	return this->current_stage;
 }
 
 unsigned short Stages::reset() {

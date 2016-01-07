@@ -40,6 +40,10 @@ public:
 	* Returns the current index.
 	**/
 	unsigned short getIndex();
+	/**
+	 * Returns the current stage
+	 **/
+	unsigned short getStage();
 
 	/**
 	 * short for resetIndex();
@@ -61,6 +65,7 @@ public:
 	 * 4 -> 12
 	 **/
 	void setStage(unsigned short stage_key);
+
 
 private:
 	//helper function, DRY

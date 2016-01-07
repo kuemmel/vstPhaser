@@ -11,19 +11,43 @@
  * uses a NotchFilter and a Oscillator for the effect
  *
  * @sampleRate: sampleRate of the audio stream
- * @mix the amount of the processed part of the end result
- * @depth strength of the notchfilter
+ * @mix the amount of the processed part of the output stream
+ * @depth strength of the notchfilter effect, e.i the width of the notch
  * @resonance: amount; further emphasise the sound by adding a feedback from a previous old (processed) signal
  * @oscillatorFrequency: The frequency of the effect (set by setSpeed)
+ *		speed(and rate) are traditional terms to describe the control
  * @stages: How often the signal is processed by the notch-filter
  **/
 class PluginProcessor{
 public:
+	/**
+	 * Initialize the Plugin with some default values
+	 **/
 	PluginProcessor();
 	~PluginProcessor();
+
+	/**
+	 * Override some of the defaults:
+	 * @sampleRate: sampleRate of the audio stream
+	 * @mix the amount of the processed part of the output stream
+	 * @depth strength of the notchfilter effect, e.i the width of the notch
+	 * @resonance: amount; further emphasise the sound by adding a feedback from a previous old (processed) signal
+	 * @oscillatorFrequency: The frequency of the effect (set by setSpeed)
+	 *		speed(and rate) are traditional terms to describe the control
+	 * @stages: How often the signal is processed by the notch-filter
+	 *
+	 **/
 	void initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages);
+
+	/**
+	 * Process a simple input value and return the result
+	 **/
 	float processOneSample(float);
-	void process(float* input, float*output, int numberOfSamples);
+
+	/**
+	 * Process a number of samples return the return the pointer to a float array
+	 **/
+	void process(float* input, float* output, int numberOfSamples);
 
 	//setter methods
 	void setMix(float mix);
@@ -33,6 +57,9 @@ public:
 	void setDepth(float depth);
 	void setStages(unsigned short stages);
 private:
+	/**
+	 * The LFO of the effect
+	 **/
 	double getTargetFrequency();
 
 private:
@@ -40,23 +67,18 @@ private:
 	unsigned long oscillatorIndex;
 	float oscillatorFrequency;
 
-	double minFrequency;
-	double maxFrequency;
-
+	float minFrequency;
+	float maxFrequency;
 	float depth;
 	float mix;
-	int resonance;
 
 	double prevBandpass;
-
 	double m_fq;
-
 	double frequencyChange;
-
 	double* shiftedOutputs;
+	int resonance;
 
 	Stages* stages;
-
 	SecondOrderFilter* sof;
 	SecondOrderFilter* sof2;
 

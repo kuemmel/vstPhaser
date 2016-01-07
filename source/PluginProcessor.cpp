@@ -6,89 +6,80 @@
 
 
 PluginProcessor::PluginProcessor(){
+	this->oscillatorIndex = 0;
+	this->oscillatorFrequency = 100;
 
-	oscillatorIndex = 0;
-	oscillatorFrequency = 100;
+	this->minFrequency = 500;
+	this->maxFrequency = 15000;
 
-	minFrequency = 500;
-	maxFrequency = 18000;
-
-	depth = 1;
-	mix = 0.5;
 	this->stages = new Stages(0);
-	resonance = 0;
+	this->depth = 1;
+	this->mix = 0.5;
+	this->resonance = 0;
 
-	m_fq = 0.49;
+	this->m_fq = 0.49;
+	this->prevBandpass = 0;
 
-	prevBandpass = 0;
-
-	shiftedOutputs = new double[resonance];
-	for (int i = 0; i < resonance; i++){
-		shiftedOutputs[i] = 0;
+	this->shiftedOutputs = new double[this->resonance];
+	for (int i = 0; i < this->resonance; i++){
+		this->shiftedOutputs[i] = 0;
 	}
 
-	sof = new SecondOrderFilter();
-	frequencyChange = 0.25;
+	this->sof = new SecondOrderFilter();
+	this->frequencyChange = 0.25;
 }
 
 PluginProcessor::~PluginProcessor(){
-	delete sof;
-	delete shiftedOutputs;
+	delete this->stages;
+	delete this->sof;
+	delete this->shiftedOutputs;
 }
 
 void PluginProcessor::initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages){
 	this->sampleRate = sampleRate;
 	this->mix = mix;
-	setResonance(resonance);
+	this->setResonance(resonance);
 	this-> oscillatorFrequency = speed;
     this->depth = depth;
-	sof->initialize(sampleRate);
+	this->sof->initialize(sampleRate);
 }
 
 double PluginProcessor::getTargetFrequency(){
-	double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
-	oscillatorIndex++;
-	return minFrequency + (maxFrequency - minFrequency) * (value*0.5 + 0.5);
-	/*minFrequency += frequencyChange;
-	if (minFrequency >= maxFrequency){
-		minFrequency = maxFrequency;
-		frequencyChange *= -1;
-	}
-	else if (minFrequency <= 100){
-		minFrequency = 100;
-		frequencyChange *= -1;
-	}
-	return minFrequency;*/
+	double value = sin(2 * M_PI * this->oscillatorIndex * this->oscillatorFrequency / this->sampleRate);
+	this->oscillatorIndex++;
+	return this->minFrequency + (this->maxFrequency - this->minFrequency) * (value*0.5 + 0.5);
 }
 
-float PluginProcessor::processOneSample(float input){
+float PluginProcessor::processOneSample(float input) {
 
 	float output = input;
 	double filterQ = m_fq*depth;
-	double frequency = getTargetFrequency();
-	sof->set(ALLPASS, frequency, filterQ, -1000);
 
-	for (int i = 0; i<12; i++) {
+	sof->set(ALLPASS, this->getTargetFrequency(), filterQ, -1000);
+	this->stages->reset(); // just to be sure, should not be needed
+	while(this->stages->checkIndex()) {
 		output = sof->processOneSample(output);
 	}
 
-	output = input*(1 - mix) + (output/*0.5+prevBandpass*0.5*/)*(mix);
+	output = input*(1-mix) + output*mix;
 
-	if (resonance > 0){
-		double outputMix = shiftedOutputs[resonance - 1];
-		for (int i = resonance - 1; i > 0; i--){
-			shiftedOutputs[i] = shiftedOutputs[i - 1];
+	if (this->resonance > 0){
+		double outputMix = this->shiftedOutputs[0];
+		for (int i = 0; i < this->resonance - 1; i++){
+			this->shiftedOutputs[i] = this->shiftedOutputs[i - 1];
 		}
 
-		shiftedOutputs[0] = output;
-
+		this->shiftedOutputs[this->resonance - 1] = output;
 		return output*0.5 + outputMix*0.5;
 	}
-	else
-		return output;
+	else return output;
 }
 
 /*for (this->stages->reset(); this->stages->checkIndex();){
+output = sof->processOneSample(output);
+}
+
+for (int i = 0; i<12; i++) {
 output = sof->processOneSample(output);
 }*/
 
@@ -96,11 +87,11 @@ void PluginProcessor::setMix(float mix) {
     this->mix = mix;
 }
 void PluginProcessor::setResonance(float resonance) {
-    this->resonance = resonance;
-	delete shiftedOutputs;
-	shiftedOutputs = new double[this->resonance];
+	this->resonance = static_cast<int>(floor(resonance));
+	delete[] this->shiftedOutputs;
+	this->shiftedOutputs = new double[this->resonance];
 	for (int i = 0; i < this->resonance; i++){
-		shiftedOutputs[i] = 0;
+		this->shiftedOutputs[i] = 0;
 	}
 }
 void PluginProcessor::setSpeed(float speed){
@@ -113,9 +104,8 @@ void PluginProcessor::setStages(unsigned short stage) {
 	this->stages->setStage(stage);
 }
 
-
 void PluginProcessor::process(float* input, float*output, int numberOfSamples){
 	for(int i = 0; i < numberOfSamples; i++){
-		output[i] = processOneSample(input[i]);
+		output[i] = this->processOneSample(input[i]);
 	}
 }
