@@ -1,7 +1,9 @@
-#include "PluginProcessor.h"
-
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+#include "PluginProcessor.h"
+#include "stages.h"
+
 
 PluginProcessor::PluginProcessor(){
 
@@ -13,7 +15,7 @@ PluginProcessor::PluginProcessor(){
 
 	depth = 1;
 	mix = 0.5;
-	stages = 1;
+	this->stages = new Stages(0);
 	resonance = 0;
 
 	m_fq = 0.49;
@@ -26,15 +28,11 @@ PluginProcessor::PluginProcessor(){
 	}
 
 	sof = new SecondOrderFilter();
-	sof2 = new SecondOrderFilter();
 	frequencyChange = 0.25;
 }
 
 PluginProcessor::~PluginProcessor(){
-
 	delete sof;
-	delete sof2;
-
 	delete shiftedOutputs;
 }
 
@@ -44,15 +42,9 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 	setResonance(resonance);
 	this-> oscillatorFrequency = speed;
     this->depth = depth;
-    this->stages = stages;
 	sof->initialize(sampleRate);
-	sof2->initialize(sampleRate);
 }
 
-/**
-	FUCKING TO DO::
-	Oscillator fixen -.-
-*/
 double PluginProcessor::getTargetFrequency(){
 	double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
 	oscillatorIndex++;
@@ -72,27 +64,15 @@ double PluginProcessor::getTargetFrequency(){
 float PluginProcessor::processOneSample(float input){
 
 	float output = input;
-	float saveOut = input;
-
-	//double filterQ = m_fq / 2 + m_fq*(depth / 100);
 	double filterQ = m_fq*depth;
-
 	double frequency = getTargetFrequency();
 	sof->set(ALLPASS, frequency, filterQ, -1000);
 
-	for (int i = 0; i < pow(2,stages); i++){
-
+	for (int i = 0; i<12; i++) {
 		output = sof->processOneSample(output);
-	}
-	
-	sof2->set(BANDPASS, frequency, filterQ, -1000);
-	for (int i = 0; i < pow(2, stages); i++){
-
-		saveOut = sof2->processOneSample(saveOut);
 	}
 
 	output = input*(1 - mix) + (output/*0.5+prevBandpass*0.5*/)*(mix);
-	prevBandpass = saveOut;
 
 	if (resonance > 0){
 		double outputMix = shiftedOutputs[resonance - 1];
@@ -107,6 +87,10 @@ float PluginProcessor::processOneSample(float input){
 	else
 		return output;
 }
+
+/*for (this->stages->reset(); this->stages->checkIndex();){
+output = sof->processOneSample(output);
+}*/
 
 void PluginProcessor::setMix(float mix) {
     this->mix = mix;
@@ -125,8 +109,8 @@ void PluginProcessor::setSpeed(float speed){
 void PluginProcessor::setDepth(float depth) {
     this->depth = depth;
 }
-void PluginProcessor::setStages(unsigned short stages) {
-    this->stages = stages;
+void PluginProcessor::setStages(unsigned short stage) {
+	this->stages->setStage(stage);
 }
 
 

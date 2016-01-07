@@ -2,6 +2,7 @@
 #define PLUGIN_PROCESSOR_H
 
 #include "SecondOrderFilter.h"
+#include "Stages.h"
 /**
  * Phaser plugin processor
  * A phaser is an audio effect, for a description see here: https://en.wikipedia.org/wiki/Phaser_(effect)
@@ -44,7 +45,6 @@ private:
 
 	float depth;
 	float mix;
-	unsigned short stages;
 	int resonance;
 
 	double prevBandpass;
@@ -54,6 +54,8 @@ private:
 	double frequencyChange;
 
 	double* shiftedOutputs;
+
+	Stages* stages;
 
 	SecondOrderFilter* sof;
 	SecondOrderFilter* sof2;
