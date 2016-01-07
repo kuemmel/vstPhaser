@@ -1,4 +1,5 @@
 #include "PluginProcessor.h"
+#include "AllpassFilter.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -28,6 +29,11 @@ PluginProcessor::PluginProcessor(){
 	sof = new SecondOrderFilter();
 	sof2 = new SecondOrderFilter();
 	frequencyChange = 0.25;
+
+	this->allpass = new AllpassFilter(sampleRate, 0, 200, 200, m_fq);
+	this->allpass->init(0);
+
+
 }
 
 PluginProcessor::~PluginProcessor(){
@@ -49,63 +55,17 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 	sof2->initialize(sampleRate);
 }
 
-/**
-	FUCKING TO DO::
-	Oscillator fixen -.-
-*/
 double PluginProcessor::getTargetFrequency(){
 	double value = sin(2 * M_PI * oscillatorIndex * oscillatorFrequency / sampleRate);
 	oscillatorIndex++;
 	return minFrequency + (maxFrequency - minFrequency) * (value*0.5 + 0.5);
-	/*minFrequency += frequencyChange;
-	if (minFrequency >= maxFrequency){
-		minFrequency = maxFrequency;
-		frequencyChange *= -1;
-	}
-	else if (minFrequency <= 100){
-		minFrequency = 100;
-		frequencyChange *= -1;
-	}
-	return minFrequency;*/
 }
 
 float PluginProcessor::processOneSample(float input){
 
-	float output = input;
-	float saveOut = input;
+	float output = this->allpass->process(input);
 
-	//double filterQ = m_fq / 2 + m_fq*(depth / 100);
-	double filterQ = m_fq*depth;
-
-	double frequency = getTargetFrequency();
-	sof->set(ALLPASS, frequency, filterQ, -1000);
-
-	for (int i = 0; i < pow(2,stages); i++){
-
-		output = sof->processOneSample(output);
-	}
-	
-	sof2->set(BANDPASS, frequency, filterQ, -1000);
-	for (int i = 0; i < pow(2, stages); i++){
-
-		saveOut = sof2->processOneSample(saveOut);
-	}
-
-	output = input*(1 - mix) + (output/*0.5+prevBandpass*0.5*/)*(mix);
-	prevBandpass = saveOut;
-
-	if (resonance > 0){
-		double outputMix = shiftedOutputs[resonance - 1];
-		for (int i = resonance - 1; i > 0; i--){
-			shiftedOutputs[i] = shiftedOutputs[i - 1];
-		}
-
-		shiftedOutputs[0] = output;
-
-		return output*0.5 + outputMix*0.5;
-	}
-	else
-		return output;
+	return output;
 }
 
 void PluginProcessor::setMix(float mix) {

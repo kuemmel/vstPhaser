@@ -94,6 +94,9 @@
     <ClCompile Include="..\source\Stages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\AllpassFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\version.h">
@@ -198,7 +201,12 @@
     <ClInclude Include="..\source\SecondOrderFilter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Stages.h" />
+    <ClInclude Include="..\source\Stages.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AllpassFilter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource\plugin.rc">
