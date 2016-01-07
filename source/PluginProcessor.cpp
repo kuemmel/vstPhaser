@@ -54,7 +54,7 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 	sof2->initialize(sampleRate);
 
 	this->allpass = new AllpassFilter(sampleRate, 0.01, 50, 100, m_fq*10);
-	this->allpass->init(10);
+	this->allpass->init(maxFrequency-500);
 }
 
 double PluginProcessor::getTargetFrequency(){
@@ -67,12 +67,11 @@ float PluginProcessor::processOneSample(float input){
 
 	float output = this->allpass->process(input);
 
-	return output*mix + input*(1 - mix);
+	return output;
 }
 
 void PluginProcessor::setMix(float mix) {
     this->mix = mix;
-	this->allpass->init(mix*100);
 }
 void PluginProcessor::setResonance(float resonance) {
     this->resonance = resonance;
