@@ -95,12 +95,12 @@ float PluginProcessor::processOneSample(float input){
 	prevBandpass = saveOut;
 
 	if (resonance > 0){
-		double outputMix = shiftedOutputs[resonance - 1];
-		for (int i = resonance - 1; i > 0; i--){
-			shiftedOutputs[i] = shiftedOutputs[i - 1];
+		double outputMix = shiftedOutputs[0];
+		for (int i = 0; i < resonance - 1; i++){
+			shiftedOutputs[i] = shiftedOutputs[i + 1];
 		}
 
-		shiftedOutputs[0] = output;
+		shiftedOutputs[resonance - 1] = output;
 
 		return output*0.5 + outputMix*0.5;
 	}
@@ -112,8 +112,8 @@ void PluginProcessor::setMix(float mix) {
     this->mix = mix;
 }
 void PluginProcessor::setResonance(float resonance) {
-    this->resonance = resonance;
-	delete shiftedOutputs;
+	this->resonance = static_cast<int>(floor(resonance));
+	delete[] shiftedOutputs;
 	shiftedOutputs = new double[this->resonance];
 	for (int i = 0; i < this->resonance; i++){
 		shiftedOutputs[i] = 0;
