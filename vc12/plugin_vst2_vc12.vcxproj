@@ -216,6 +216,7 @@
     <ClCompile Include="..\..\..\..\..\vstgui4\vstgui\vstgui_uidescription_win32.cpp" />
     <ClCompile Include="..\..\..\..\..\vstgui4\vstgui\vstgui_win32.cpp" />
     <ClCompile Include="..\..\..\..\source\vst\vstsinglecomponenteffect.cpp" />
+    <ClCompile Include="..\source\allpass.cpp" />
     <ClCompile Include="..\source\plugin.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
@@ -240,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\source\vst\vstsinglecomponenteffect.h" />
+    <ClInclude Include="..\source\allpass.h" />
     <ClInclude Include="..\source\plugin.h" />
     <ClInclude Include="..\source\pluginadapter.h" />
     <ClInclude Include="..\source\PluginProcessor.h" />

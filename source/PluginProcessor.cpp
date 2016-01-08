@@ -4,7 +4,6 @@
 #include "PluginProcessor.h"
 #include "stages.h"
 
-
 PluginProcessor::PluginProcessor(){
 	this->oscillatorIndex = 0;
 	this->oscillatorFrequency = 100;
@@ -21,13 +20,13 @@ PluginProcessor::PluginProcessor(){
 	this->m_fq = 0.49;
 	this->prevBandpass = 0;
 
-	this->sof = new SecondOrderFilter();
+	this->allpass = new AllpassFilter();
 	this->frequencyChange = 0.25;
 }
 
 PluginProcessor::~PluginProcessor(){
 	delete this->stages;
-	delete this->sof;
+	delete this->allpass;
 	delete this->resonanceBuffer;
 }
 
@@ -37,7 +36,7 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 	this->setResonance(resonance);
 	this-> oscillatorFrequency = speed;
     this->depth = depth;
-	this->sof->initialize(sampleRate);
+	this->allpass->setSampleRate(sampleRate);
 
 	this->resonanceBufferLength = static_cast<int>(sampleRate);
 	this->resonanceBuffer = new double[resonanceBufferLength];
@@ -56,10 +55,10 @@ float PluginProcessor::processOneSample(float input) {
 	float output = input;
 	double filterQ = m_fq*depth;
 
-	sof->set(ALLPASS, this->getTargetFrequency(), filterQ, -1000);
-	this->stages->reset(); // just to be sure, should not be needed
+	allpass->set(this->getTargetFrequency(), filterQ, -1000);
+	//this->stages->reset(); // just to be sure, should not be needed
 	while(this->stages->checkIndex()) {
-		output = sof->processOneSample(output);
+		output = allpass->processOneSample(output);
 	}
 
 	output = input*(1-mix) + output*mix;

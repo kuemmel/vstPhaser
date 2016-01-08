@@ -1,7 +1,7 @@
 #ifndef PLUGIN_PROCESSOR_H
 #define PLUGIN_PROCESSOR_H
 
-#include "SecondOrderFilter.h"
+#include "allpass.h"
 #include "Stages.h"
 /**
  * Phaser plugin processor
@@ -81,8 +81,7 @@ private:
 	int resonance;
 
 	Stages* stages;
-	SecondOrderFilter* sof;
-	SecondOrderFilter* sof2;
+	AllpassFilter* allpass;
 
 };
 #endif
