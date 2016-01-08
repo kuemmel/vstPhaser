@@ -75,7 +75,9 @@ private:
 	double prevBandpass;
 	double m_fq;
 	double frequencyChange;
-	double* shiftedOutputs;
+	double* resonanceBuffer;
+	int resonanceBufferLength;
+	int resonanceBufferReadPos;
 	int resonance;
 
 	Stages* stages;

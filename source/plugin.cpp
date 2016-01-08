@@ -21,11 +21,11 @@ tresult PLUGIN_API Phaser::initialize (FUnknown* context){
 	//The amount of reverb that is mixed on the notch-filter
 	parameters.addParameter(new RangeParameter(STR16("Resonance"), kResonanceId, STR16("%"), 0, 1000, 0));
 	//the speed at which the notchfilter oscillates("speed" is traditionally used)
-	parameters.addParameter(new RangeParameter(STR16("Speed"), kSpeedId, STR16("Hz"), 0, 1000, 50));
+	parameters.addParameter(new RangeParameter(STR16("Speed"), kSpeedId, STR16("Hz"), 0, 2, 0.5));
 	//amount of notchfilters the signal is going through, 0 is off
 	parameters.addParameter(new RangeParameter(STR16("Stages"), kStagesId, STR16("Stages"), 0, 4, 0));
 	//effect of the notchfilters on the basis
-	parameters.addParameter(new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0.001, 100, 50));
+	parameters.addParameter(new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0.001, 2, 0.49));
 
 	// fix for RangeParameter (default value is not yet set)
 	for(int i = 0; i < parameters.getParameterCount(); i++){
@@ -45,8 +45,8 @@ Phaser::Phaser ()
 void Phaser::startProcessing(int numChannels, SampleRate sampleRate){
 	this->numChannels = numChannels;
 	this->sampleRate = sampleRate;
-	leftProcessor.initialize(sampleRate,0.5,0,50,50,0); 
-	rightProcessor.initialize(sampleRate, 0.5, 0, 50, 50, 0);
+	leftProcessor.initialize(sampleRate,0.5,0,0.5,0.49,0); 
+	rightProcessor.initialize(sampleRate, 0.5, 0, 0.5, 0.49, 0);
 }
 tresult PLUGIN_API Phaser::process (ProcessData& data)
 {
@@ -74,8 +74,8 @@ tresult PLUGIN_API Phaser::process (ProcessData& data)
 	if(hasInputParameterChanged(data, kStagesId)) {
 		//float paramValue = getInputParameterChange(data, kStagesId);
 		float paramValue = getPlainValue(kStagesId);
- 		leftProcessor.setStages(floor(paramValue)); 
-		rightProcessor.setStages(floor(paramValue));
+ 		leftProcessor.setStages(paramValue);
+		rightProcessor.setStages(paramValue);
     }
 	if(hasInputParameterChanged(data, kDepthId)) {
 		//float paramValue = getInputParameterChange(data, kDepthId);

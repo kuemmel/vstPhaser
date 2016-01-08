@@ -16,14 +16,10 @@ PluginProcessor::PluginProcessor(){
 	this->depth = 1;
 	this->mix = 0.5;
 	this->resonance = 0;
+	this->resonanceBufferReadPos = 0;
 
 	this->m_fq = 0.49;
 	this->prevBandpass = 0;
-
-	this->shiftedOutputs = new double[this->resonance];
-	for (int i = 0; i < this->resonance; i++){
-		this->shiftedOutputs[i] = 0;
-	}
 
 	this->sof = new SecondOrderFilter();
 	this->frequencyChange = 0.25;
@@ -32,7 +28,7 @@ PluginProcessor::PluginProcessor(){
 PluginProcessor::~PluginProcessor(){
 	delete this->stages;
 	delete this->sof;
-	delete this->shiftedOutputs;
+	delete this->resonanceBuffer;
 }
 
 void PluginProcessor::initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages){
@@ -42,6 +38,11 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 	this-> oscillatorFrequency = speed;
     this->depth = depth;
 	this->sof->initialize(sampleRate);
+
+	this->resonanceBufferLength = static_cast<int>(sampleRate);
+	this->resonanceBuffer = new double[resonanceBufferLength];
+	for (int i = 0; i < resonanceBufferLength; i++)
+		this->resonanceBuffer[i] = 0;
 }
 
 double PluginProcessor::getTargetFrequency(){
@@ -64,12 +65,10 @@ float PluginProcessor::processOneSample(float input) {
 	output = input*(1-mix) + output*mix;
 
 	if (this->resonance > 0){
-		double outputMix = this->shiftedOutputs[0];
-		for (int i = 0; i < this->resonance - 1; i++){
-			this->shiftedOutputs[i] = this->shiftedOutputs[i - 1];
-		}
+		this->resonanceBuffer[(this->resonanceBufferReadPos + this->resonance) % this->resonanceBufferLength] = output;
+		double outputMix = this->resonanceBuffer[this->resonanceBufferReadPos++];
+		this->resonanceBufferReadPos %= this->resonanceBufferLength;
 
-		this->shiftedOutputs[this->resonance - 1] = output;
 		return output*0.5 + outputMix*0.5;
 	}
 	else return output;
@@ -88,11 +87,6 @@ void PluginProcessor::setMix(float mix) {
 }
 void PluginProcessor::setResonance(float resonance) {
 	this->resonance = static_cast<int>(floor(resonance));
-	delete[] this->shiftedOutputs;
-	this->shiftedOutputs = new double[this->resonance];
-	for (int i = 0; i < this->resonance; i++){
-		this->shiftedOutputs[i] = 0;
-	}
 }
 void PluginProcessor::setSpeed(float speed){
     this->oscillatorFrequency = speed;
