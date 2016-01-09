@@ -15,23 +15,31 @@ namespace Vst {
  * depth
  * state - on/off
  **/
-tresult PLUGIN_API Phaser::initialize (FUnknown* context){
+tresult PLUGIN_API Phaser::initialize(FUnknown* context){
 	//how much of the sound is coming from the filter(s)
-	parameters.addParameter(new RangeParameter(STR16("Mix"), kMixId, STR16("%"), 0, 100, 50));
-	//The amount of reverb that is mixed on the notch-filter
-	parameters.addParameter(new RangeParameter(STR16("Resonance"), kResonanceId, STR16("%"), 0, 1000, 0));
-	//the speed at which the notchfilter oscillates("speed" is traditionally used)
-	parameters.addParameter(new RangeParameter(STR16("Speed"), kSpeedId, STR16("Hz"), 0, 2, 0.5));
-	//amount of notchfilters the signal is going through, 0 is off
-	parameters.addParameter(new RangeParameter(STR16("Stages"), kStagesId, STR16("Stages"), 0, 4, 0));
-	//effect of the notchfilters on the basis
-	parameters.addParameter(new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0.001, 2, 0.49));
+	
+	Parameter* parameter = new RangeParameter(STR16("Mix"), kMixId, STR16("%"), 0, 100, 50);
+	parameter->setPrecision(0);
+	Parameter* parameter1 = new RangeParameter(STR16("Resonance"), kResonanceId, STR16("%"), 0, 1000, 0);
+	parameter1->setPrecision(0);
+	Parameter* parameter2 = new RangeParameter(STR16("Speed"), kSpeedId, STR16("Hz"), 0, 2, 0.5);
+	parameter2->setPrecision(2);
+	Parameter* parameter3 = new RangeParameter(STR16("Stages"), kStagesId, STR16("Stages"), 0, 4, 0);
+	parameter3->setPrecision(0);
+	Parameter* parameter4 = new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0.001, 2, 0.49);
+	parameter4->setPrecision(2);
+	
+    parameters.addParameter(parameter); 
+    parameters.addParameter(parameter1); 
+    parameters.addParameter(parameter2); 
+    parameters.addParameter(parameter3);
+	parameters.addParameter(parameter4);
 
 	// fix for RangeParameter (default value is not yet set)
-	for(int i = 0; i < parameters.getParameterCount(); i++){
+	/*for(int i = 0; i < parameters.getParameterCount(); i++){
 		Parameter* p = parameters.getParameterByIndex(i);
 		p->setNormalized(p->getInfo().defaultNormalizedValue);
-	}
+	}*/
 	return PluginAdapter::initialize(context);	
 }
 

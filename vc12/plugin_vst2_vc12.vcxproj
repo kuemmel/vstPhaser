@@ -236,7 +236,6 @@
     <ClCompile Include="..\..\..\..\source\main\pluginfactoryvst3.cpp" />
     <ClCompile Include="..\..\..\..\..\pluginterfaces\base\ustring.cpp" />
     <ClCompile Include="..\source\PluginProcessor.cpp" />
-    <ClCompile Include="..\source\SecondOrderFilter.cpp" />
     <ClCompile Include="..\source\Stages.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -245,7 +244,6 @@
     <ClInclude Include="..\source\plugin.h" />
     <ClInclude Include="..\source\pluginadapter.h" />
     <ClInclude Include="..\source\PluginProcessor.h" />
-    <ClInclude Include="..\source\SecondOrderFilter.h" />
     <ClInclude Include="..\source\Stages.h" />
     <ClInclude Include="..\source\version.h" />
     <ClInclude Include="..\..\..\..\source\common\pluginview.h" />
