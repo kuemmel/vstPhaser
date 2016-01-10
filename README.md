@@ -15,6 +15,7 @@ A phaser is an audio processor to be used with, for example, an instrument, or a
 - clone/download repository
 - copy it into your sdk (VST3 SDK/public.sdk/)
 - Open the project in <repository>/vcXX and hit build(<C-S-b>). 
+- install fonts in /resources, otherwise the LCD fonts won't look good 
 - find the phaser.dll in vcXX/ and open it with your vsthost
   - with Wavosaur go to tools/VST/VST-Rack
 - use program as described further down (or in doc).
@@ -32,8 +33,8 @@ The Phaser shifts the phase of the audiosignal and mixes it again into the input
 - This being for a lecture we decided to make the GUI big enough to make out on a beamer. Half the size would probably better for actual use (although there would be far better plugins/solutions for this kind of usage). 
 
 - We used to fonts for this project:
-    - LCD http://www.1001freefonts.com/open_24_display.font
-    - REDLINE http://www.1001freefonts.com/redline.font
+  - LCD http://www.1001freefonts.com/open_24_display.font
+  - REDLINE http://www.1001freefonts.com/redline.font
 - Software used:
   - Knobman http://www.g200kg.com/en/software/knobman.html
   - Blender (for the background image) https://www.blender.org/
