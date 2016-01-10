@@ -1,7 +1,9 @@
 #ifndef __plugin__
 #define __plugin__
+
 #include "pluginadapter.h"
 #include "PluginProcessor.h"
+
 namespace Steinberg {
 namespace Vst {
 

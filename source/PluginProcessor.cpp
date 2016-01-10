@@ -73,14 +73,6 @@ float PluginProcessor::processOneSample(float input) {
 	else return output;
 }
 
-/*for (this->stages->reset(); this->stages->checkIndex();){
-output = sof->processOneSample(output);
-}
-
-for (int i = 0; i<12; i++) {
-output = sof->processOneSample(output);
-}*/
-
 void PluginProcessor::setMix(float mix) {
     this->mix = mix;
 }
