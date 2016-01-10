@@ -16,30 +16,24 @@ namespace Vst {
  * state - on/off
  **/
 tresult PLUGIN_API Phaser::initialize(FUnknown* context){
-	//how much of the sound is coming from the filter(s)
 	
-	Parameter* parameter = new RangeParameter(STR16("Mix"), kMixId, STR16("%"), 0, 100, 50);
-	parameter->setPrecision(0);
-	Parameter* parameter1 = new RangeParameter(STR16("Resonance"), kResonanceId, STR16("%"), 0, 1000, 0);
-	parameter1->setPrecision(0);
-	Parameter* parameter2 = new RangeParameter(STR16("Speed"), kSpeedId, STR16("Hz"), 0, 2, 0.5);
-	parameter2->setPrecision(2);
-	Parameter* parameter3 = new RangeParameter(STR16("Stages"), kStagesId, STR16("Stages"), 0, 4, 0);
-	parameter3->setPrecision(0);
-	Parameter* parameter4 = new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0.001, 2, 0.49);
-	parameter4->setPrecision(2);
+	Parameter* mix = new RangeParameter(STR16("Mix"), kMixId, STR16("%"), 0, 100, 50);
+	mix->setPrecision(0);
+	Parameter* resonance = new RangeParameter(STR16("Resonance"), kResonanceId, STR16("%"), 0, 1000, 0);
+	resonance->setPrecision(0);
+	Parameter* speed = new RangeParameter(STR16("Speed"), kSpeedId, STR16("Hz"), 0, 2, 0.5);
+	speed->setPrecision(2);
+	Parameter* stages = new RangeParameter(STR16("Stages"), kStagesId, STR16("Stages"), 0, 4, 0);
+	stages->setPrecision(0);
+	Parameter* depth = new RangeParameter(STR16("Depth"), kDepthId, STR16("dB"), 0.001, 2, 0.49);
+	depth->setPrecision(2);
 	
-    parameters.addParameter(parameter); 
-    parameters.addParameter(parameter1); 
-    parameters.addParameter(parameter2); 
-    parameters.addParameter(parameter3);
-	parameters.addParameter(parameter4);
+    parameters.addParameter(mix); 
+    parameters.addParameter(resonance); 
+    parameters.addParameter(speed); 
+    parameters.addParameter(stages);
+	parameters.addParameter(depth);
 
-	// fix for RangeParameter (default value is not yet set)
-	/*for(int i = 0; i < parameters.getParameterCount(); i++){
-		Parameter* p = parameters.getParameterByIndex(i);
-		p->setNormalized(p->getInfo().defaultNormalizedValue);
-	}*/
 	return PluginAdapter::initialize(context);	
 }
 
