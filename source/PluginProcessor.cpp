@@ -5,9 +5,6 @@
 #include "stages.h"
 
 PluginProcessor::PluginProcessor(){
-	this->oscillatorIndex = 0;
-	this->oscillatorFrequency = 100;
-
 	this->minFrequency = 500;
 	this->maxFrequency = 15000;
 
@@ -22,21 +19,25 @@ PluginProcessor::PluginProcessor(){
 
 	this->allpass = new AllpassFilter();
 	this->frequencyChange = 0.25;
+
+	this->lfo = new LowFrequencyOscillator();
 }
 
 PluginProcessor::~PluginProcessor(){
 	delete this->stages;
 	delete this->allpass;
 	delete this->resonanceBuffer;
+	delete this->lfo;
 }
 
 void PluginProcessor::initialize(float sampleRate, float mix, float resonance, float speed, float depth, unsigned short stages){
 	this->sampleRate = sampleRate;
 	this->mix = mix;
 	this->setResonance(resonance);
-	this-> oscillatorFrequency = speed;
     this->depth = depth;
 	this->allpass->setSampleRate(sampleRate);
+	
+	this->lfo = new LowFrequencyOscillator(sampleRate,1,speed);
 
 	this->resonanceBufferLength = static_cast<int>(sampleRate);
 	this->resonanceBuffer = new double[resonanceBufferLength];
@@ -44,19 +45,11 @@ void PluginProcessor::initialize(float sampleRate, float mix, float resonance, f
 		this->resonanceBuffer[i] = 0;
 }
 
-double PluginProcessor::getTargetFrequency(){
-	double value = sin(2 * M_PI * this->oscillatorIndex * this->oscillatorFrequency / this->sampleRate);
-	this->oscillatorIndex++;
-	return this->minFrequency + (this->maxFrequency - this->minFrequency) * (value*0.5 + 0.5);
-}
-
 float PluginProcessor::processOneSample(float input) {
-
 	float output = input;
 	double filterQ = m_fq*depth;
 
-	allpass->set(this->getTargetFrequency(), filterQ, -1000);
-	//this->stages->reset(); // just to be sure, should not be needed
+	allpass->set(this->lfo->get(), filterQ, -1000);
 	while(this->stages->checkIndex()) {
 		output = allpass->processOneSample(output);
 	}
@@ -80,7 +73,7 @@ void PluginProcessor::setResonance(float resonance) {
 	this->resonance = static_cast<int>(floor(resonance));
 }
 void PluginProcessor::setSpeed(float speed){
-    this->oscillatorFrequency = speed;
+    this->lfo->setFrequency(speed);
 }
 void PluginProcessor::setDepth(float depth) {
     this->depth = depth;

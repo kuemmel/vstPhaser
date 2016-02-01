@@ -42,8 +42,7 @@ void AllpassFilter::set(double frequency, double Q, double gain){
 	b2 = 1 + alpha;
 	a0 = 1.0 + alpha;
 	a1 = 2.0 * cosw;
-	a2 = alpha - 1.0;
-
+	a2 = alpha - 1.0;                                         
 	set(a0, a1, a2, b0, b1, b2);
 }
 

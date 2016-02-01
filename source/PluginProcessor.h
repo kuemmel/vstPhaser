@@ -3,6 +3,7 @@
 
 #include "allpass.h"
 #include "Stages.h"
+#include "LowFrequencyOscillator.h"
 /**
  * Phaser plugin processor
  * A phaser is an audio effect, for a description see here: https://en.wikipedia.org/wiki/Phaser_(effect)
@@ -57,16 +58,7 @@ public:
 	void setDepth(float depth);
 	void setStages(unsigned short stages);
 private:
-	/**
-	 * The LFO of the effect
-	 **/
-	double getTargetFrequency();
-
-private:
 	float sampleRate;
-	unsigned long oscillatorIndex;
-	float oscillatorFrequency;
-
 	float minFrequency;
 	float maxFrequency;
 	float depth;
@@ -82,6 +74,7 @@ private:
 
 	Stages* stages;
 	AllpassFilter* allpass;
+	LowFrequencyOscillator* lfo;
 
 };
 #endif

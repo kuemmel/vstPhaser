@@ -94,6 +94,9 @@
     <ClCompile Include="..\source\allpass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\LowFrequencyOscillator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\version.h">
@@ -199,6 +202,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\allpass.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\LowFrequencyOscillator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
